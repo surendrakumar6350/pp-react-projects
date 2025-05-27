@@ -6,12 +6,11 @@ const authRouter = require('./routes/auth/auth-routes');
 const adminProductsRouter = require('./routes/admin/products-routes');
 const shopProductsRouter = require('./routes/shop/products-routes');
 const shopCartRouter = require('./routes/shop/cart-routers');
-const addressRouter = require('./routes/shop/address-routes')
+const addressRouter = require('./routes/shop/address-routes');
+const dotenv = require('dotenv');
+dotenv.config();
 
-mongoose.connect("mongodb+srv://adminddtyd:ZqsUbFOBfUUu1ggh@cluster0.mfb5yit.mongodb.net/ecom"
-).then(()=> console.log('MongoDB connected')).catch((error) => console.log(error));
-
-
+mongoose.connect(`${process.env.MONGO_URI}/ecom`).then(() => console.log('MongoDB connected')).catch((error) => console.log(error));
 
 const app = express();
 const PORT = process.env.PORT || 5000;
@@ -19,7 +18,7 @@ const PORT = process.env.PORT || 5000;
 app.use(
     cors({
         origin: 'http://localhost:5173',
-        methods: ['GET', 'POST', 'DELETE', 'PUT' ],
+        methods: ['GET', 'POST', 'DELETE', 'PUT'],
         allowedHeaders: [
             "Content-Type",
             'Authorization',
@@ -39,4 +38,4 @@ app.use('/api/shop/products', shopProductsRouter);
 app.use('/api/shop/cart', shopCartRouter);
 app.use('/api/shop/address', addressRouter);
 
-app.listen(PORT, ()=> console.log(`server is now running on port ${PORT}`));
+app.listen(PORT, () => console.log(`server is now running on port ${PORT}`));
